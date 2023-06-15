@@ -21,6 +21,15 @@ class AgendasController < ApplicationController
     end
   end
 
+  def destroy
+    if @agenda.destroy
+      redirect_to dashboard_path
+    else
+      redirect_to dashboard_path, notice: "削除に失敗しました"
+    end
+  end
+
+
   private
 
   def set_agenda
