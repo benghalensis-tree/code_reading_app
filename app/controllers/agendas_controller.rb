@@ -1,5 +1,5 @@
 class AgendasController < ApplicationController
-  # before_action :set_agenda, only: %i[show edit update destroy]
+   before_action :set_agenda, only: %i[show edit update destroy]
 
   def index
     @agendas = Agenda.all
@@ -20,6 +20,23 @@ class AgendasController < ApplicationController
       render :new
     end
   end
+
+  def destroy
+    if @agenda.team.members.include?(current_user) || @agenda.team.owner.include?(current_user)
+
+      if @agenda.destroy
+        @agenda.team.members.each do |member|
+          AgendaMailer.agenda_mail(member).deliver
+        end
+        redirect_to dashboard_path
+      else
+        redirect_to dashboard_path, notice: "削除に失敗しました"
+      end
+    else
+      redirect_to dashboard_path, notice: "削除に失敗しました"
+    end
+  end
+
 
   private
 

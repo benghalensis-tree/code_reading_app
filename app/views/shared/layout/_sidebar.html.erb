@@ -31,11 +31,20 @@
         <% @working_team.agendas.each do |agenda| %>
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
-              <i class="fa fa-circle-o nav-icon"></i>
-              <p>
-                <%= agenda.title %>
-                <i class="right fa fa-angle-left"></i>
-              </p>
+              <table>
+                <tbody>
+                  <tr>
+                    <td>
+                    <i class="fa fa-circle-o nav-icon"></i>
+                        <%= agenda.title %>
+                    </td>
+                        <i class="right fa fa-angle-left"></i>
+                    <td>
+                    <%= link_to I18n.t('views.button.delete'), agenda_path(agenda), method: :delete, class: 'nav-link d-inline-flex' %>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </a>
             <ul class="nav nav-treeview" style="display: block;">
               <% agenda.articles.each do |article| %>
