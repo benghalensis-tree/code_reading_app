@@ -43,7 +43,8 @@
                       <td><%= assign.user.email %></td>
                       <td><%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %></td>
 
-                      <td><%= button_to "リーダーにする", { controller: 'teams', action: 'assign_owner'}, method: :post, params: {owner_id: assign.user_id} %></td>
+                      <td>
+                      <%= button_to "リーダーにする", { controller: 'teams', action: 'assign_owner'}, method: :post, params: {owner_id: assign.user_id} %></td>
                     </tr>
                   <% end %>
                 </tbody>

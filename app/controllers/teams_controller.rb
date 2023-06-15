@@ -39,13 +39,18 @@ class TeamsController < ApplicationController
   end
 
   def assign_owner
-    if @team.update(owner_id: params[:owner_id])
-      ContactMailer.contact_mail(@team).deliver 
-      @user = User.find(@team.owner_id)
-      redirect_to team_path, notice: 'オーナー権限が移動しました!'
+    if current_user.id == @team.owner_id
+      if @team.update(owner_id: params[:owner_id])
+        ContactMailer.contact_mail(@team).deliver 
+        @user = User.find(@team.owner_id)
+        redirect_to team_path, notice: 'オーナー権限が移動しました!'
+      else
+        redirect_to team_path, notice: '権限の移動に失敗しました'
+      end
     else
       redirect_to team_path, notice: '権限の移動に失敗しました'
     end
+
   end
 
   def destroy
