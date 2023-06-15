@@ -23,6 +23,9 @@ class AgendasController < ApplicationController
 
   def destroy
     if @agenda.destroy
+      @agenda.team.members.each do |member|
+        AgendaMailer.agenda_mail(member).deliver
+      end
       redirect_to dashboard_path
     else
       redirect_to dashboard_path, notice: "削除に失敗しました"
